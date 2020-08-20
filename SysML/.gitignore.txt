@@ -1,2 +1,2 @@
-.lck
-.bak
+*.lck
+*.bak
