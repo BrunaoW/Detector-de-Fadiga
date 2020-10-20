@@ -1,0 +1,37 @@
+#:kivy 2.0
+# -*- coding: utf-8 -*-
+<Gerenciador>:
+    TelaInicial:
+        name: 'tela_inicial'
+    ConfiguracaoRotina:
+        name: 'configuracao_rotina'
+    TelaDeteccao:
+        name: 'tela_deteccao'
+    TelaFimExecucao:
+        name: 'tela_fim_execucao'
+
+<TelaInicial>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 200
+        spacing: 50
+        Label:
+            text: "Detector de Fadiga"
+            font: "Roboto"
+            font_size: 36
+        Button:
+            text: "Iniciar execução"
+            on_release: pass
+        Button:
+            text: "Fechar"
+            on_release: app.stop()
+
+<ConfiguracaoRotina>:
+
+
+<TelaDeteccao>:
+
+
+<TelaFimExecucao>:
+
+
