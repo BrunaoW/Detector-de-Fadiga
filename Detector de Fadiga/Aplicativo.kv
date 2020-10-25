@@ -2,12 +2,16 @@
 # -*- coding: utf-8 -*-
 <Gerenciador>:
     TelaInicial:
+        id: tela_inicial
         name: 'tela_inicial'
     ConfiguracaoRotina:
+        id: configuracao_rotina
         name: 'configuracao_rotina'
     TelaDeteccao:
+        id: tela_deteccao
         name: 'tela_deteccao'
     TelaFimExecucao:
+        id: tela_fim_execucao
         name: 'tela_fim_execucao'
 
 <TelaInicial>:
@@ -16,11 +20,10 @@
         orientation: 'vertical'
         padding: 64
         spacing: 50
-        Label:
+        CustomLabel:
             text: "Detector de Fadiga"
             font: "Roboto"
             font_size: 36
-            color: (0, 0, 0, 1)
         Button:
             text: "Iniciar rotina"
             on_release: app.gerenciador.mudaTela("configuracao_rotina")
@@ -36,17 +39,42 @@
         spacing: 50
         FloatInput:
             id: tempo
+            text: app.tempo_execucao
+            on_text: app.tempo_execucao = self.text
+            multiline: False
         Button:
             text: "Modo Vigia"
+            on_release: app.iniciarRotinaMonitoramento("VIGIA")
         Button:
             text: "Modo Viagem"
+            on_release: app.iniciarRotinaMonitoramento("VIAGEM")
         Button:
             text: "Voltar"
             on_release: app.gerenciador.mudaTela("tela_inicial")
 
 <TelaDeteccao>:
     id: tela_deteccao
-
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 64
+        spacing: 10
+        CustomLabel:
+            text: "Hora atual: " + app.horario_atual
+        CustomLabel:
+            text: "Tempo restante: "
+        BoxLayout:
+            orientation: 'horizontal'
+            Image:
+                id: camera
+                souce: "camera.jpg"
+            CustomLabel:
+                text: "Aqui havera a lista de eventos"
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: "Pausar"
+            Button:
+                text: "Terminar"    
 
 <TelaFimExecucao>:
     id: tela_fim_execucao
