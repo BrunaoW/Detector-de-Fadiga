@@ -11,27 +11,43 @@
         name: 'tela_fim_execucao'
 
 <TelaInicial>:
+    id: tela_inicial
     BoxLayout:
         orientation: 'vertical'
-        padding: 200
+        padding: 64
         spacing: 50
         Label:
             text: "Detector de Fadiga"
             font: "Roboto"
             font_size: 36
+            color: (0, 0, 0, 1)
         Button:
-            text: "Iniciar execução"
-            on_release: pass
+            text: "Iniciar rotina"
+            on_release: app.gerenciador.mudaTela("configuracao_rotina")
         Button:
             text: "Fechar"
             on_release: app.stop()
 
 <ConfiguracaoRotina>:
-
+    id: configuracao_rotina
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 64
+        spacing: 50
+        FloatInput:
+            id: tempo
+        Button:
+            text: "Modo Vigia"
+        Button:
+            text: "Modo Viagem"
+        Button:
+            text: "Voltar"
+            on_release: app.gerenciador.mudaTela("tela_inicial")
 
 <TelaDeteccao>:
+    id: tela_deteccao
 
 
 <TelaFimExecucao>:
-
+    id: tela_fim_execucao
 

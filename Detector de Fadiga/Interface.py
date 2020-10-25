@@ -1,8 +1,10 @@
+
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 
 class Gerenciador(ScreenManager):
-    pass
+    def mudaTela(self, tela_selecionada):
+        self.current = tela_selecionada
 
 class TelaInicial(Screen):
     pass
