@@ -1,5 +1,6 @@
 import re
 
+from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
@@ -26,8 +27,12 @@ class TelaDeteccao(Screen):
 
     def dialogPausa(self, *args):
         conteudo = BoxLayout(orientation = 'vertical')
-        dialog = Popup(title='Rotina pausada.', content=conteudo, size_hint=(None, None), size=(250,130))
-        botao = Button(text='Voltar', on_release=dialog.dismiss)
+        dialog = Popup(title='Rotina pausada.', content=conteudo, size_hint=(None, None), size=(250,130), auto_dismiss=False)
+        def fecharDialog(*largs, **kwargs):
+            aplicativo = App.get_running_app()
+            aplicativo.continuarRotina()
+            dialog.dismiss()
+        botao = Button(text='Voltar', on_release=fecharDialog)
 
         conteudo.add_widget(botao)
         dialog.open()
@@ -35,6 +40,9 @@ class TelaDeteccao(Screen):
 class TelaFimExecucao(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def fecharPrograma(self):
+        App.get_running_app().stop()
 
 class FloatInput(TextInput):
     padrao_numeros = re.compile('[^0-9]')

@@ -9,16 +9,26 @@ class RotinaMonitoramento():
     def __init__(self, modo_selecionado):
         self.modo_selecionado = modo_selecionado
         self.pausado = False
+        self.finalizado = False
         pass
 
     def selecionarModo(self, modo_selecionado):
         self.modo_selecionado = modo_selecionado
 
     def iniciarRotina(self, modo_selecionado, tempo_digitado):
+        self.pausado = False
+        self.modo_selecionado = modo_selecionado
         pass
 
     def pausarRotina(self):
         self.pausado = True
+
+    def continuarRotina(self):
+        self.pausado = False
+
+    def encerrarRotina(self):
+        self.finalizado = True
+        pass
 
     def criaImagem(self, altura, largura, bits=np.uint8, canais=3, cor=(0, 0, 0)): # (cv.GetSize(frame), 8, 3)
         """Create new image(numpy array) filled with certain color in RGB"""
@@ -41,6 +51,8 @@ class RotinaMonitoramento():
         # cv2.imshow("CV2 Image", frame)
         # convert it to texture
         buf1 = cv2.flip(frame, 0)
+        
+
         buf = buf1.tostring()
         texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
         texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')

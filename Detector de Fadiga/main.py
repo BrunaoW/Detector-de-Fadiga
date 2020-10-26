@@ -40,7 +40,6 @@ class Aplicativo(App):
 
         # variaveis para o opencv e camera
         self.captura = cv2.VideoCapture(0)
-        ret, frame = self.captura.read()
         self.camera = self.gerenciador.ids['tela_deteccao'].ids['camera']
 
         return self.gerenciador
@@ -54,7 +53,7 @@ class Aplicativo(App):
         def callback_atualiza_tempo_restante(dt):
             self.tempo_execucao = self.tempo_execucao - 1
             self.tempo_execucao_corrente = str(datetime.timedelta(seconds=self.tempo_execucao))
-            return not self.rotina_monitoramento.pausado
+            return not (self.rotina_monitoramento.pausado or self.rotina_monitoramento.finalizado)
         self.atualiza_tempo_restante = Callback(callback_atualiza_tempo_restante, 1)
         self.atualiza_tempo_restante.start()
         
@@ -68,6 +67,15 @@ class Aplicativo(App):
 
     def pausarRotina(self):
         self.rotina_monitoramento.pausarRotina()
+
+    def continuarRotina(self):
+        self.rotina_monitoramento.continuarRotina()
+        self.atualiza_tempo_restante.start()
+
+    def encerrarRotina(self):
+        self.rotina_monitoramento.encerrarRotina()
+        self.gerenciador.current = "tela_fim_execucao"
+        pass
 
 
 Aplicativo().run()

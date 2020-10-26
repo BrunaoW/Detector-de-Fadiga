@@ -76,8 +76,26 @@
                 on_press: app.pausarRotina()
                 on_release: root.dialogPausa()
             Button:
-                text: "Terminar"    
+                text: "Terminar"
+                on_press: app.encerrarRotina() 
 
 <TelaFimExecucao>:
     id: tela_fim_execucao
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 64
+        spacing: 10
+        CustomLabel:
+            text: "Hora atual: " + app.horario_atual
+        CustomLabel:
+            text: "Tempo restante: " + app.tempo_execucao_corrente
+        CustomLabel:
+            text: "Aqui havera a lista de eventos"
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: "Gerar PDF"
+            Button:
+                text: "Fechar programa"
+                on_release: root.fecharPrograma()
 
