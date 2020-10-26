@@ -73,7 +73,8 @@
             orientation: 'horizontal'
             Button:
                 text: "Pausar"
-                on_release: app.pausarRotina()
+                on_press: app.pausarRotina()
+                on_release: root.dialogPausa()
             Button:
                 text: "Terminar"    
 

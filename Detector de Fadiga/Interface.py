@@ -5,6 +5,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.properties import StringProperty
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 
 class Gerenciador(ScreenManager):
     def mudaTela(self, tela_selecionada):
@@ -21,6 +23,14 @@ class ConfiguracaoRotina(Screen):
 class TelaDeteccao(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def dialogPausa(self, *args):
+        conteudo = BoxLayout(orientation = 'vertical')
+        botao = Button(text='Voltar')
+
+        conteudo.add_widget(botao)
+        dialog = Popup(title='Rotina pausada.', content=conteudo, size_hint=(None, None), size=(250,130))
+        dialog.open()
 
 class TelaFimExecucao(Screen):
     def __init__(self, **kwargs):

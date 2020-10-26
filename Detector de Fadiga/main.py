@@ -67,7 +67,6 @@ class Aplicativo(App):
         self.rotina_monitoramento.iniciarRotina(self.modo_selecionado, self.tempo_execucao_digitado)
 
     def pausarRotina(self):
-        del self.atualiza_tempo_restante
         self.rotina_monitoramento.pausarRotina()
 
 
