@@ -36,12 +36,18 @@
     BoxLayout:
         orientation: 'vertical'
         padding: 64
-        spacing: 50
+        spacing: 25
+        CustomLabel:
+            text: "Tempo da rotina:"
+            size_hint_y: None
+            height: 30
         FloatInput:
             id: tempo
             text: app.tempo_execucao_digitado
             on_text: app.tempo_execucao_digitado = self.text
             multiline: False
+            size_hint_y: None
+            height: 50
         Button:
             text: "Modo Vigia"
             on_release: app.iniciarRotinaMonitoramento("VIGIA")
@@ -102,8 +108,8 @@
             text: "Tempo restante: " + app.tempo_execucao_corrente
         BoxLayout:
             orientation: 'horizontal'
-            Button:
-                text: "Gerar PDF"
+            # Button:
+            #     text: "Gerar PDF"
             Button:
                 text: "Fechar programa"
                 on_release: root.fecharPrograma()

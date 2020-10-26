@@ -22,7 +22,6 @@ import datetime
 
 Config.set('graphics', 'resizable', False)
 rgba_divider = 255
-#Builder.load_string(open("Aplicativo.kv", encoding='utf-8').read(), rulesonly=True)
 
 class Aplicativo(App):
     tempo_execucao_digitado = StringProperty("01:00")
@@ -85,7 +84,7 @@ class Aplicativo(App):
         self.gerenciador.current = "tela_fim_execucao"
         pass
 
-# try:
-Aplicativo().run()
-# except (TypeError, NameError):
-#     pass
+try:
+    Aplicativo().run()
+except (TypeError, NameError):
+    pass
