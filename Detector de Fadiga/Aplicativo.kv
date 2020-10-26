@@ -39,8 +39,8 @@
         spacing: 50
         FloatInput:
             id: tempo
-            text: app.tempo_execucao
-            on_text: app.tempo_execucao = self.text
+            text: app.tempo_execucao_digitado
+            on_text: app.tempo_execucao_digitado = self.text
             multiline: False
         Button:
             text: "Modo Vigia"
@@ -61,7 +61,7 @@
         CustomLabel:
             text: "Hora atual: " + app.horario_atual
         CustomLabel:
-            text: "Tempo restante: "
+            text: "Tempo restante: " + app.tempo_execucao_corrente
         BoxLayout:
             orientation: 'horizontal'
             Image:
@@ -73,6 +73,7 @@
             orientation: 'horizontal'
             Button:
                 text: "Pausar"
+                on_release: app.pausarRotina()
             Button:
                 text: "Terminar"    
 

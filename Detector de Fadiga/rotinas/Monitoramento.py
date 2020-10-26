@@ -17,6 +17,9 @@ class RotinaMonitoramento():
     def iniciarRotina(self, modo_selecionado, tempo_digitado):
         pass
 
+    def pausarRotina(self):
+        self.pausado = True
+
     def criaImagem(self, altura, largura, bits=np.uint8, canais=3, cor=(0, 0, 0)): # (cv.GetSize(frame), 8, 3)
         """Create new image(numpy array) filled with certain color in RGB"""
         # Create black blank image

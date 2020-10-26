@@ -44,6 +44,9 @@ class FloatInput(TextInput):
         
         return super(FloatInput, self).insert_text(s, from_undo=from_undo)
 
+    def on_text_validate():
+        pass
+
 class CustomLabel(Label):
     def __init__(self, **kwargs):
         self.color = (0, 0, 0, 1)

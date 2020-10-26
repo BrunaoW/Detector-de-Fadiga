@@ -14,16 +14,18 @@ from rotinas.Deteccao import RotinaDeteccao
 from rotinas.Monitoramento import RotinaMonitoramento
 from rotinas.Relatorio import RotinaRelatorio
 from enums.ModoSelecionadoEnum import ModoSelecionado
+from util.tempo import *
 
-from datetime import datetime
+import datetime
 
 Config.set('graphics', 'resizable', False)
 rgba_divider = 255
 #Builder.load_string(open("Aplicativo.kv", encoding='utf-8').read(), rulesonly=True)
 
 class Aplicativo(App):
-    tempo_execucao = StringProperty("00:00")
-    horario_atual = StringProperty(datetime.now().strftime("%H:%M"))
+    tempo_execucao_digitado = StringProperty("00:00")
+    horario_atual = StringProperty(datetime.datetime.now().strftime("%H:%M"))
+    tempo_execucao_corrente = StringProperty("00:00:00")
 
     modo_selecionado = None
     rotina_alerta = RotinaAlerta()
@@ -44,15 +46,29 @@ class Aplicativo(App):
         return self.gerenciador
 
     def iniciarRotinaMonitoramento(self, modo_selecionado):
-        def callback_horario(dt): self.horario_atual = datetime.now().strftime("%H:%M")
-        Clock.schedule_interval(callback_horario, 1)
+        def callback_horario(dt): self.horario_atual = datetime.datetime.now().strftime("%H:%M")
+        self.atualiza_horario = Callback(callback_horario, 1)
+        self.atualiza_horario.start()
 
-        def callback_atualiza_camera(dt): self.camera.texture = self.rotina_monitoramento.update(dt, self.captura)
-        Clock.schedule_interval(callback_atualiza_camera, 1.0/30.0)
+        self.tempo_execucao = Tempo.get_sec(self.tempo_execucao_digitado)
+        def callback_atualiza_tempo_restante(dt):
+            self.tempo_execucao = self.tempo_execucao - 1
+            self.tempo_execucao_corrente = str(datetime.timedelta(seconds=self.tempo_execucao))
+            return not self.rotina_monitoramento.pausado
+        self.atualiza_tempo_restante = Callback(callback_atualiza_tempo_restante, 1)
+        self.atualiza_tempo_restante.start()
         
+        def callback_atualiza_camera(dt): self.camera.texture = self.rotina_monitoramento.update(dt, self.captura)
+        self.atualiza_camera = Callback(callback_atualiza_camera, 1.0/30.0)
+        self.atualiza_camera.start()
+
         self.modo_selecionado = ModoSelecionado[modo_selecionado]
         self.gerenciador.current = "tela_deteccao"
-        self.rotina_monitoramento.iniciarRotina(self.modo_selecionado, self.tempo_execucao)
+        self.rotina_monitoramento.iniciarRotina(self.modo_selecionado, self.tempo_execucao_digitado)
+
+    def pausarRotina(self):
+        del self.atualiza_tempo_restante
+        self.rotina_monitoramento.pausarRotina()
 
 
 Aplicativo().run()
