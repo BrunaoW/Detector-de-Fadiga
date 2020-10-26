@@ -26,10 +26,10 @@ class TelaDeteccao(Screen):
 
     def dialogPausa(self, *args):
         conteudo = BoxLayout(orientation = 'vertical')
-        botao = Button(text='Voltar')
+        dialog = Popup(title='Rotina pausada.', content=conteudo, size_hint=(None, None), size=(250,130))
+        botao = Button(text='Voltar', on_release=dialog.dismiss)
 
         conteudo.add_widget(botao)
-        dialog = Popup(title='Rotina pausada.', content=conteudo, size_hint=(None, None), size=(250,130))
         dialog.open()
 
 class TelaFimExecucao(Screen):
