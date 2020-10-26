@@ -14,7 +14,6 @@ time.sleep(2.0)
 # video processing pipeline
 while True:
     frame = vs.read()
-    frame = imutils.resize(frame, width=600)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     rects = detector(gray, 0)
 

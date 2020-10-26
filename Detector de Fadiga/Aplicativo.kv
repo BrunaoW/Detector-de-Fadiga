@@ -56,7 +56,7 @@
     id: tela_deteccao
     BoxLayout:
         orientation: 'vertical'
-        padding: 64
+        padding: 32
         spacing: 10
         CustomLabel:
             text: "Hora atual: " + app.horario_atual
@@ -67,8 +67,10 @@
             Image:
                 id: camera
                 souce: "camera.jpg"
-            CustomLabel:
-                text: "Aqui havera a lista de eventos"
+            BoxLayout:
+                orientation: vertical
+                CustomLabel:
+                    text: "Aqui havera a lista de eventos"
         BoxLayout:
             orientation: 'horizontal'
             Button:

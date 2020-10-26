@@ -37,6 +37,19 @@ class TelaDeteccao(Screen):
         conteudo.add_widget(botao)
         dialog.open()
 
+    def dialogAlerta(self, *args):
+        conteudo = BoxLayout(orientation = 'vertical')
+        aplicativo = App.get_running_app()
+
+        dialog = Popup(title='Fadiga detectada', content=conteudo, size_hint=(None, None), size=(250,130), auto_dismiss=False)
+        def fecharDialog(*largs, **kwargs):
+            aplicativo.continuarRotina()
+            dialog.dismiss()
+        botao = Button(text='Ok', on_release=fecharDialog)
+
+        conteudo.add_widget(botao)
+        dialog.open()
+
 class TelaFimExecucao(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

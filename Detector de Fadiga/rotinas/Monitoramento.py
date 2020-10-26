@@ -1,4 +1,5 @@
 from kivy.graphics.texture import Texture
+from kivy.app import App
 
 import cv2
 import numpy as np
@@ -47,14 +48,21 @@ class RotinaMonitoramento():
 
     def update(self, dt, camera):
         # display image from cam in opencv window
-        ret, frame = camera.read()
-        # cv2.imshow("CV2 Image", frame)
-        # convert it to texture
-        buf1 = cv2.flip(frame, 0)
-        
+        frame = camera.read()
+        aplicativo = App.get_running_app()
 
+        buf1 = aplicativo.rotina_deteccao.obterLandmarks(frame)
+        buf1 = cv2.flip(buf1, 0)
         buf = buf1.tostring()
         texture = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
         texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
+
+        aplicativo.rotina_deteccao.obterCoordenadasOlhos()
+        teve_fadiga = aplicativo.rotina_deteccao.detectarFadiga()
+
+        if teve_fadiga:
+            aplicativo.gerenciador.ids['tela_deteccao'].dialogAlerta()
+            aplicativo.pausarRotina()
+
         # display image from the texture
         return texture
