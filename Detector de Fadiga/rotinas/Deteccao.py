@@ -3,10 +3,13 @@ import dlib
 import cv2
 from imutils import face_utils
 
+from kivy.app import App
+
 class RotinaDeteccao():
-    EYE_AR_THRESH = 0.27
+    EYE_AR_THRESH = 0.25
     EYE_AR_CONSEC_FRAMES = 45
     COUNTER = 0
+    landmarks = []
 
     (inicio_esquerdo, fim_esquerdo) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
     (inicio_direito, fim_direito) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
@@ -33,6 +36,12 @@ class RotinaDeteccao():
         imagem_em_cinza = cv2.cvtColor(imagem_camera, cv2.COLOR_BGR2GRAY)
         rects = self.detector(imagem_em_cinza, 0)
 
+        if len(rects) == 0:
+            aplicativo = App.get_running_app()
+            aplicativo.gerenciador.ids['tela_deteccao'].dialogAlertaArtefato()
+            aplicativo.rotina_monitoramento.artefatoDetectado(aplicativo.horario_atual)
+
+
         for rect in rects:
             self.landmarks = self.predictor(imagem_em_cinza, rect)
             self.landmarks = face_utils.shape_to_np(self.landmarks)
@@ -43,6 +52,9 @@ class RotinaDeteccao():
         return imagem_camera
     
     def obterCoordenadasOlhos(self):
+        if len(self.landmarks) == 0:
+            return False
+
         self.olho_esquerdo = self.landmarks[self.inicio_esquerdo:self.fim_esquerdo]
         self.olho_direito = self.landmarks[self.inicio_direito:self.fim_direito]
         razao_palpebra_esquerda = self.calcularRazaoPalpebra(self.olho_esquerdo)

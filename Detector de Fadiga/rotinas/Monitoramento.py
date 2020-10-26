@@ -5,8 +5,11 @@ import cv2
 import numpy as np
 
 from enums.ModoSelecionadoEnum import ModoSelecionado
+from util.evento import Evento
 
 class RotinaMonitoramento():
+    eventos = []
+
     def __init__(self, modo_selecionado):
         self.modo_selecionado = modo_selecionado
         self.pausado = False
@@ -21,15 +24,25 @@ class RotinaMonitoramento():
         self.modo_selecionado = modo_selecionado
         pass
 
-    def pausarRotina(self):
+    def artefatoDetectado(self, horario_atual):
+        self.incluirEvento(Evento("Artefato identificado", horario_atual))
+        self.pausado = True
+
+    def pausarRotina(self, horario_pausa):
+        self.incluirEvento(Evento("Rotina pausada", horario_pausa))
         self.pausado = True
 
     def continuarRotina(self):
         self.pausado = False
 
-    def encerrarRotina(self):
+    def encerrarRotina(self, horario_encerramento):
+        self.incluirEvento(Evento("Fim da rotina", horario_encerramento))
         self.finalizado = True
         pass
+
+    def incluirEvento(self, evento):
+        self.eventos.append(evento)
+        App.get_running_app().gerenciador.ids['tela_deteccao'].ids['scroll_view_eventos'].incluirEvento(evento)
 
     def criaImagem(self, altura, largura, bits=np.uint8, canais=3, cor=(0, 0, 0)): # (cv.GetSize(frame), 8, 3)
         """Create new image(numpy array) filled with certain color in RGB"""
@@ -61,8 +74,9 @@ class RotinaMonitoramento():
         teve_fadiga = aplicativo.rotina_deteccao.detectarFadiga()
 
         if teve_fadiga:
-            aplicativo.gerenciador.ids['tela_deteccao'].dialogAlerta()
-            aplicativo.pausarRotina()
+            self.incluirEvento(Evento("Fadiga detectada", aplicativo.horario_atual))
+            aplicativo.gerenciador.ids['tela_deteccao'].dialogAlertaFadiga()
+            self.pausado = True
 
         # display image from the texture
         return texture

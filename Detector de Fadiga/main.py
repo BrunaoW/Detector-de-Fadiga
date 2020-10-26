@@ -14,6 +14,7 @@ from rotinas.Monitoramento import RotinaMonitoramento
 from rotinas.Relatorio import RotinaRelatorio
 from rotinas.Deteccao import RotinaDeteccao
 from rotinas.Alerta import RotinaAlerta
+from util.evento import Evento
 from util.tempo import *
 from Interface import *
 
@@ -67,11 +68,12 @@ class Aplicativo(App):
         self.atualiza_camera.start()
 
         self.modo_selecionado = ModoSelecionado[modo_selecionado]
+        self.rotina_monitoramento.incluirEvento(Evento("Inicio da rotina", self.horario_atual))
         self.gerenciador.current = "tela_deteccao"
         self.rotina_monitoramento.iniciarRotina(self.modo_selecionado, self.tempo_execucao_digitado)
 
     def pausarRotina(self):
-        self.rotina_monitoramento.pausarRotina()
+        self.rotina_monitoramento.pausarRotina(self.horario_atual)
 
     def continuarRotina(self):
         self.rotina_monitoramento.continuarRotina()
@@ -79,7 +81,7 @@ class Aplicativo(App):
         self.atualiza_tempo_restante.start()
 
     def encerrarRotina(self):
-        self.rotina_monitoramento.encerrarRotina()
+        self.rotina_monitoramento.encerrarRotina(self.horario_atual)
         self.gerenciador.current = "tela_fim_execucao"
         pass
 

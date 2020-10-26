@@ -8,6 +8,9 @@ from kivy.uix.label import Label
 from kivy.properties import StringProperty
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
+
+from util.evento import Evento
 
 class Gerenciador(ScreenManager):
     def mudaTela(self, tela_selecionada):
@@ -37,7 +40,7 @@ class TelaDeteccao(Screen):
         conteudo.add_widget(botao)
         dialog.open()
 
-    def dialogAlerta(self, *args):
+    def dialogAlertaFadiga(self, *args):
         conteudo = BoxLayout(orientation = 'vertical')
         aplicativo = App.get_running_app()
 
@@ -49,6 +52,27 @@ class TelaDeteccao(Screen):
 
         conteudo.add_widget(botao)
         dialog.open()
+
+    def dialogAlertaArtefato(self, *args):
+        conteudo = BoxLayout(orientation = 'vertical')
+        aplicativo = App.get_running_app()
+        conteudo.add_widget(Label(text='Provável artefato no rosto identificado'))
+
+        dialog = Popup(title='Não é possível realizar a deteccção', content=conteudo, size_hint=(None, None), size=(300,150), auto_dismiss=False)
+        def fecharDialog(*largs, **kwargs):
+            aplicativo.continuarRotina()
+            dialog.dismiss()
+        botao = Button(text='Ok', on_release=fecharDialog)
+
+        conteudo.add_widget(botao)
+        dialog.open()
+
+class EventosRegistrados(ScrollView):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def incluirEvento(self, evento_a_incluir):
+        self.children[0].add_widget(CustomLabel(text=evento_a_incluir.hora + " - " + evento_a_incluir.texto, font_size=14, size_hint_y=None, height=20))
 
 class TelaFimExecucao(Screen):
     def __init__(self, **kwargs):

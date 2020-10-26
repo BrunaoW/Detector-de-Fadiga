@@ -60,19 +60,28 @@
         spacing: 10
         CustomLabel:
             text: "Hora atual: " + app.horario_atual
+            size_hint_y: None
+            height: 20
         CustomLabel:
             text: "Tempo restante: " + app.tempo_execucao_corrente
+            size_hint_y: None
+            height: 20
         BoxLayout:
             orientation: 'horizontal'
             Image:
                 id: camera
                 souce: "camera.jpg"
-            BoxLayout:
-                orientation: vertical
-                CustomLabel:
-                    text: "Aqui havera a lista de eventos"
+            EventosRegistrados:
+                id: scroll_view_eventos
+                BoxLayout:
+                    id: eventos
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: self.minimum_height
         BoxLayout:
             orientation: 'horizontal'
+            size_hint_y: None
+            height: 80
             Button:
                 text: "Pausar"
                 on_press: app.pausarRotina()
@@ -91,8 +100,6 @@
             text: "Hora atual: " + app.horario_atual
         CustomLabel:
             text: "Tempo restante: " + app.tempo_execucao_corrente
-        CustomLabel:
-            text: "Aqui havera a lista de eventos"
         BoxLayout:
             orientation: 'horizontal'
             Button:
