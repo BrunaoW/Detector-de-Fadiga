@@ -22,6 +22,7 @@ pypiwin32 = "*"
 "kivy-deps.angle" = "==0.1.*"
 cython = "*"
 kivy = "==2.0.0rc2"
+reportlab = "*"
 
 [requires]
 python_version = "3.8"

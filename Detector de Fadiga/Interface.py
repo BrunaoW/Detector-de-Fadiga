@@ -81,6 +81,18 @@ class TelaFimExecucao(Screen):
     def fecharPrograma(self):
         App.get_running_app().stop()
 
+    def dialogGerouPdf(self, texto):
+        conteudo = BoxLayout(orientation = 'vertical')
+        conteudo.add_widget(Label(text=texto))
+
+        dialog = Popup(title='Arquivo PDF eventos', content=conteudo, size_hint=(None, None), size=(300,150), auto_dismiss=False)
+        def fecharDialog(*largs, **kwargs):
+            dialog.dismiss()
+        botao = Button(text='Ok', on_release=fecharDialog)
+
+        conteudo.add_widget(botao)
+        dialog.open()
+
 class FloatInput(TextInput):
     padrao_numeros = re.compile('[^0-9]')
     

@@ -108,8 +108,9 @@
             text: "Tempo restante: " + app.tempo_execucao_corrente
         BoxLayout:
             orientation: 'horizontal'
-            # Button:
-            #     text: "Gerar PDF"
+            Button:
+                text: "Gerar PDF"
+                on_release: app.gerarRelatorio()
             Button:
                 text: "Fechar programa"
                 on_release: root.fecharPrograma()

@@ -33,6 +33,8 @@ class Aplicativo(App):
     rotina_deteccao = RotinaDeteccao()
     rotina_monitoramento = RotinaMonitoramento(modo_selecionado)
     rotina_relatorio = RotinaRelatorio()
+
+    ja_gerou_relatorio = False
     
     def build(self):
         Window.size = (600, 600)
@@ -84,7 +86,17 @@ class Aplicativo(App):
         self.gerenciador.current = "tela_fim_execucao"
         pass
 
+    def gerarRelatorio(self):
+        if not self.ja_gerou_relatorio:
+            gerou_corretamente = self.rotina_relatorio.gerarRelatorio(self.rotina_monitoramento.eventos)
+        
+        if gerou_corretamente:
+            TelaFimExecucao().dialogGerouPdf('PDF foi gerado corretamente')
+            self.ja_gerou_relatorio = True
+        else:
+            TelaFimExecucao().dialogGerouPdf('PDF gerado incorretamente. Tente novamente')
+
 try:
     Aplicativo().run()
-except (TypeError, NameError):
+except:
     pass
